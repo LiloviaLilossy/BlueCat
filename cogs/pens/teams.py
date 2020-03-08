@@ -28,7 +28,7 @@ class StarColorPensTeams(commands.Cog, name="Princesses' Star Color Pens: Teams"
 		if "yes" in answer.content:
 			role = ctx.guild.get_role(team["TeamRole"])
 			await ctx.author.add_roles(role)
-			await ctx.send(f"Congrats and welcome to the {name} team!")
+			await ctx.send(f"Congrats and welcome to the {name} team-nyan!")
 		else:
 			await ctx.send(f"Sorry, {ctx.author.mention}, but <@"+str(team["Leader"])+"> said you can't.")
 
