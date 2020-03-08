@@ -5,7 +5,7 @@ from discord import PermissionOverwrite, utils, Member
 from discord.ext import commands
 from os import remove
 
-class StarColorPens(commands.Cog, name="Princesses' Star Color Pens: Start"):
+class StarColorPensStart(commands.Cog, name="Princesses' Star Color Pens: Start"):
     def __init__(self, bot):
         self.bot = bot
 
@@ -115,7 +115,7 @@ class StarColorPens(commands.Cog, name="Princesses' Star Color Pens: Start"):
             return await ctx.send("I can't remove nothing, tell your team's name.")
         try:
             team = data["Teams"][name]
-        except ValueError:
+        except KeyError:
             return await ctx.send("There are no team with that name here-nyan.")
         if team["Leader"] != ctx.author.id:
             return await ctx.send("Hey! You aren't the owner of this team!")
@@ -130,4 +130,4 @@ class StarColorPens(commands.Cog, name="Princesses' Star Color Pens: Start"):
 
         
 def setup(bot):
-    bot.add_cog(StarColorPens(bot))
+    bot.add_cog(StarColorPensStart(bot))
