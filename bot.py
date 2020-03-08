@@ -7,6 +7,6 @@ token = get_token("discord")
 
 bot.load_extension("jishaku")
 for cog in bot.coglist():
-	bot.load_extension(cog)
+    bot.load_extension(cog)
 
 bot.run(token)
