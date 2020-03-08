@@ -1,11 +1,11 @@
 import json
-from addons.check import is_guild_admin
+from addons.check import *
 from asyncio import TimeoutError
-from discord import PermissionOverwrite, utils
+from discord import PermissionOverwrite, utils, Member
 from discord.ext import commands
 from os import remove
 
-class StarColorPens(commands.Cog, name="Princesses' Star Color Pens"):
+class StarColorPens(commands.Cog, name="Princesses' Star Color Pens: Start"):
     def __init__(self, bot):
         self.bot = bot
 
@@ -60,6 +60,74 @@ class StarColorPens(commands.Cog, name="Princesses' Star Color Pens"):
         await category.delete()
         await ctx.send("Done. You can keep your roles, if you want.")
         remove(f"guild-settings/{ctx.guild.id}/colorpens.json")
+
+    @commands.guild_only()
+    @commands.bot_has_permissions(manage_roles=True, manage_channels=True)
+    @commands.command(name="team-create", aliases=["create-team"])
+    async def team_create(self, ctx, name:str=None, leader: Member=None):
+        try:
+            file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
+        except FileNotFoundError:
+            return await ctx.send("Princesses' Star Color Pens is disabled here-nyan.")
+        data = json.load(file)
+        file.close()
+        mainchannel = ctx.guild.get_channel(data["MainChannelID"])
+        if name == None:
+            await ctx.send("Hey, you need a team name, after all. I'll wait for a minute, when you'll send me the name-nyan.")
+            def check(m):
+                return m.author == ctx.author
+            try:
+                answer = await self.bot.wait_for('message', check=check, timeout=60.0)
+            except TimeoutError:
+                return await ctx.send("Okay, then you don't want to create the team. Sadly-nyan.")
+            name = answer.content
+            await ctx.send(f"Okay-nyan, you called the team {name}.")
+        if leader == None:
+            leader = ctx.author
+        teamrole = await ctx.guild.create_role(name=name, reason="Creating a team role.")
+        await leader.add_roles(teamrole)
+        msg = "Okay-nyan, I created a role and gave it to the leader"
+        if leader != ctx.author:
+            await ctx.author.add_roles(teamrole)
+            msg+= " and you"
+        await ctx.send(msg+".")
+        overwrites = {ctx.guild.me: PermissionOverwrite(manage_messages=True, send_messages=True), 
+                    teamrole: PermissionOverwrite(send_messages=True, read_messages=True),
+                    leader: PermissionOverwrite(manage_messages=True),
+                    ctx.guild.default_role: (PermissionOverwrite(read_messages=False, send_messages=False))}
+        teamchannel = await ctx.guild.create_text_channel(name=name.lower().replace(" ", "-"), overwrites=overwrites, category=mainchannel.category, reason="Creating a team chat.")
+        await teamchannel.send(f"{leader.mention}, there's your chat.")
+        data["Teams"][name] = {"Leader": leader.id, "TeamRole": teamrole.id, "TeamChannel": teamchannel.id}
+        with open(f"guild-settings/{ctx.guild.id}/colorpens.json", "w") as file:
+            json.dump(data, file)
+
+    @commands.guild_only()
+    @commands.bot_has_permissions(manage_roles=True, manage_channels=True)
+    @commands.command(name="team-remove", aliases=["remove-team"])
+    async def team_remove(self, ctx, *, name:str = None):
+        try:
+            file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
+        except FileNotFoundError:
+            return await ctx.send("Princesses' Star Color Pens is disabled here-nyan.")
+        data = json.load(file)
+        file.close()
+        if name == None:
+            return await ctx.send("I can't remove nothing, tell your team's name.")
+        try:
+            team = data["Teams"][name]
+        except ValueError:
+            return await ctx.send("There are no team with that name here-nyan.")
+        if team["Leader"] != ctx.author.id:
+            return await ctx.send("Hey! You aren't the owner of this team!")
+        await ctx.send(f"Okay. Goodbye, {name}")
+        teamchannel = ctx.guild.get_channel(team["TeamChannel"])
+        teamrole = ctx.guild.get_role(team["TeamRole"])
+        await teamchannel.delete()
+        await teamrole.delete()
+        del data["Teams"][name]
+        with open(f"guild-settings/{ctx.guild.id}/colorpens.json", "w") as file:
+            json.dump(data, file)
+
         
 def setup(bot):
     bot.add_cog(StarColorPens(bot))
