@@ -13,7 +13,7 @@ class Misc(commands.Cog):
     @commands.command(name="botinfo")
     async def botinfo(self, ctx):
         embed = Embed()
-        embed.add_field(name="Owner info:", value="**Username:**"+str(self.owner)+"\n**ID:**"+str(self.owner.id))
+        embed.add_field(name="Owner info:", value="**Username:** LiloviaLilossy#1830\n**ID:**516280857468731395")
         embed.add_field(name="Bot info:", value="**Bot users:** "+str(len(self.bot.users))+"\n**Bot guilds:** "+str(len(self.bot.guilds))+"\n**Python version:** "+str(version)+"\n**OS:** "+platform)
         embed.add_field(name="Bot links:", value="**Invite:** [click here](https://discordapp.com/api/oauth2/authorize?client_id=676417304707203132&permissions=379968&scope=bot) \n**Support server:** [click here](https://discord.gg/Z2nKuYG) \n**Source code:** [click here](https://github.com/LiloviaLilossy/BlueCat)")
         embed.set_footer(text="Nyan! Blue Cat-bot v1.0")
@@ -28,7 +28,7 @@ class Misc(commands.Cog):
 ```
         """
         embed = Embed()
-        embed.set_author(name="Owner is "+self.owner)
+        embed.set_author(name="Owner is LiloviaLilossy#1830")
         embed.add_field(title="Blue Cat Changelog!", value=text)
         embed.set_footer(text="Nyan! Blue Cat-bot v1.0")
         await ctx.send(embed=embed)
