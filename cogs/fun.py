@@ -7,6 +7,7 @@ from random import choice
 class Fun(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.name = "Fun"
         self.session = aiohttp.ClientSession()
 	
     async def cog_unload(self):
@@ -35,8 +36,7 @@ class Fun(commands.Cog):
         embed.set_footer(text="Powered by api.qrserver.com")
         await msg.edit(embed=embed)
 	
-    @commands.command(name="bluecat-random", aliases=["randomyuni", "yuni-random", "randombluecat", 
-                                                                                            "image-yuni", "image-bluecat"])
+    @commands.command(name="bluecat-random", aliases=["randombluecat", "image-bluecat"])
     async def randomyuniimage(self, ctx):
         with open("bot-settings/images.json", "r") as file:
             data = json.load(file)

@@ -5,13 +5,14 @@ from discord import PermissionOverwrite, utils, Member
 from discord.ext import commands
 from os import remove
 
-class StarColorPensStart(commands.Cog, name="Princesses' Star Color Pens: Start"):
+class StarColorPensStart(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
+        self.name="Princesses' Star Color Pens: Start"
 
     @commands.check(is_guild_admin)
     @commands.guild_only()
-    @commands.command(name="pen-enable", aliases=["penenable"])
+    @commands.command(name="pen-enable")
     async def penenable(self, ctx):
         try:
             file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
@@ -45,7 +46,7 @@ class StarColorPensStart(commands.Cog, name="Princesses' Star Color Pens: Start"
 
     @commands.check(is_guild_admin)
     @commands.guild_only()
-    @commands.command(name="pen-disable", aliases=["pendisable"])
+    @commands.command(name="pen-disable")
     async def pendisable(self, ctx):
         try:
             file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
@@ -64,7 +65,7 @@ class StarColorPensStart(commands.Cog, name="Princesses' Star Color Pens: Start"
     @commands.guild_only()
     @commands.bot_has_permissions(manage_roles=True, manage_channels=True)
     @commands.command(name="team-create", aliases=["create-team"])
-    async def team_create(self, ctx, name:str=None, leader: Member=None):
+    async def team_create(self, ctx, *, name:str=None):
         try:
             file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
         except FileNotFoundError:
@@ -82,15 +83,10 @@ class StarColorPensStart(commands.Cog, name="Princesses' Star Color Pens: Start"
                 return await ctx.send("Okay, then you don't want to create the team. Sadly-nyan.")
             name = answer.content
             await ctx.send(f"Okay-nyan, you called the team {name}.")
-        if leader == None:
-            leader = ctx.author
         teamrole = await ctx.guild.create_role(name=name, reason="Creating a team role.")
-        await leader.add_roles(teamrole)
-        msg = "Okay-nyan, I created a role and gave it to the leader"
-        if leader != ctx.author:
-            await ctx.author.add_roles(teamrole)
-            msg+= " and you"
-        await ctx.send(msg+".")
+        await ctx.author.add_roles(teamrole)
+        msg = "Okay-nyan, I created a role and gave it to the leader. (it's you)"
+        await ctx.send(msg)
         overwrites = {ctx.guild.me: PermissionOverwrite(manage_messages=True, send_messages=True), 
                     teamrole: PermissionOverwrite(send_messages=True, read_messages=True),
                     leader: PermissionOverwrite(manage_messages=True),
