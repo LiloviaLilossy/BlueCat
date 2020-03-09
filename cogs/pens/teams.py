@@ -1,4 +1,5 @@
 import json
+from discord import Embed, utils
 from discord.ext import commands
 
 class StarColorPensTeams(commands.Cog):
@@ -69,6 +70,13 @@ class StarColorPensTeams(commands.Cog):
             team = data["Teams"][name]
         except KeyError:
             return await ctx.send("There are no team with that name here-nyan.")
+        channel = ctx.guild.get_channel(team["TeamChannel"])
+        role = ctx.guild.get_role(team["TeamRole"])
+        leader = utils.get(ctx.guild.members, id=team["Leader"])
+        e = Embed()
+        e.add_field(name="Team info:", value="**Team name:** "+name+"\n**Team channel:** "+channel.mention+"\n**Team role:** "+role.mention+"\n**Member count:** "+str(len(role.members)))
+        e.add_field(name="Team Leader info:", value="**Username:** "+leader.display_name+"\n**Is online?** "+str(leader.status))
+        await ctx.send(embed=e)
 
 def setup(bot):
     bot.add_cog(StarColorPensTeams(bot))

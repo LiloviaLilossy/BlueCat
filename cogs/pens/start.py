@@ -89,11 +89,11 @@ class StarColorPensStart(commands.Cog):
         await ctx.send(msg)
         overwrites = {ctx.guild.me: PermissionOverwrite(manage_messages=True, send_messages=True), 
                     teamrole: PermissionOverwrite(send_messages=True, read_messages=True),
-                    leader: PermissionOverwrite(manage_messages=True),
+                    ctx.author: PermissionOverwrite(manage_messages=True),
                     ctx.guild.default_role: (PermissionOverwrite(read_messages=False, send_messages=False))}
         teamchannel = await ctx.guild.create_text_channel(name=name.lower().replace(" ", "-"), overwrites=overwrites, category=mainchannel.category, reason="Creating a team chat.")
-        await teamchannel.send(f"{leader.mention}, there's your chat.")
-        data["Teams"][name] = {"Leader": leader.id, "TeamRole": teamrole.id, "TeamChannel": teamchannel.id}
+        await teamchannel.send(f"{ctx.author.mention}, there's your chat.")
+        data["Teams"][name] = {"Leader": ctx.author.id, "TeamRole": teamrole.id, "TeamChannel": teamchannel.id}
         with open(f"guild-settings/{ctx.guild.id}/colorpens.json", "w") as file:
             json.dump(data, file)
 
