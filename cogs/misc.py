@@ -15,7 +15,7 @@ class Misc(commands.Cog):
         embed = Embed()
         embed.add_field(name="Owner info:", value="**Username:**"+str(self.owner)+"\n**ID:**"+str(self.owner.id))
         embed.add_field(name="Bot info:", value="**Bot users:** "+str(len(self.bot.users))+"\n**Bot guilds:** "+str(len(self.bot.guilds))+"\n**Python version:** "+str(version)+"\n**OS:** "+platform)
-        embed.add_field(name="Bot links:", value="**Invite:** soon \n**Support server:** [click here](https://discord.gg/Z2nKuYG) \n**Source code:** [click here](https://github.com/LiloviaLilossy/BlueCat)")
+        embed.add_field(name="Bot links:", value="**Invite:** [click here](https://discordapp.com/api/oauth2/authorize?client_id=676417304707203132&permissions=379968&scope=bot) \n**Support server:** [click here](https://discord.gg/Z2nKuYG) \n**Source code:** [click here](https://github.com/LiloviaLilossy/BlueCat)")
         embed.set_footer(text="Nyan! Blue Cat-bot v1.0")
         await ctx.send(embed=embed)
 
@@ -69,7 +69,20 @@ class Misc(commands.Cog):
                 if help_value != "":
                     embed.add_field(name=c.name, value=help_value)
         await ctx.send(embed=embed)
-
+    
+    @commands.command(name="invite")
+    async def invite(self, ctx):
+        e = Embed()
+        e.add_field(name="Invite me to your server!", value="[here](https://discordapp.com/api/oauth2/authorize?client_id=676417304707203132&permissions=379968&scope=bot)")
+        e.set_footer(text="Nyan! Blue Cat-bot v1.0")
+        await ctx.send(embed=e)
+    
+    @commands.command(name="support")
+    async def support(self, ctx):
+        e = Embed()
+        e.add_field(name="So, you need help with me. Here's an invite, try ask them.", value="[here](https://discord.gg/Z2nKuYG)")
+        e.set_footer(text="Nyan! Blue Cat-bot v1.0")
+        await ctx.send(embed=e)
 
 def setup(bot):
     bot.add_cog(Misc(bot))
