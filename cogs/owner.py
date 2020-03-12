@@ -1,7 +1,7 @@
 import json
 from addons.get_something import get_smth
 from discord import Game, utils
-from discord.ext import commands
+from discord.ext import commands, flags
 
 class Owner(commands.Cog):
     def __init__(self, bot):
@@ -28,7 +28,7 @@ class Owner(commands.Cog):
                     loadedcogs.append(cog)
                 except commands.ExtensionError as e:
                     await lilo.send(f"{cog} - {e}")
-                    await ctx.send(",".join(loadedcogs) + " - done-nyan!")
+            await ctx.send(",".join(loadedcogs) + " - done-nyan!")
         else:
             try:
                 self.bot.reload_extension(cog)

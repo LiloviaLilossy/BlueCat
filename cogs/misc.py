@@ -28,12 +28,11 @@ class Misc(commands.Cog):
 ```
         """
         embed = Embed()
-        embed.set_author(name="Owner is LiloviaLilossy#1830")
-        embed.add_field(title="Blue Cat Changelog!", value=text)
+        embed.add_field(text="Blue Cat Changelog!", value=text)
         embed.set_footer(text="Nyan! Blue Cat-bot v1.0")
         await ctx.send(embed=embed)
 
-    @commands.command(name="prefixes")
+    @commands.command(name="prefixes", aliases=["prefix"])
     async def prefixes(self, ctx):
         embed = Embed()
         with open(f"guild-settings/{ctx.guild.id}/prefixes.json", "r") as file:

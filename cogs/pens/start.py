@@ -19,28 +19,35 @@ class StarColorPensStart(commands.Cog):
             return await ctx.send("You enabled Princesses' Star Color Pens here.")
         except FileNotFoundError:
             pass
+
+        def checkcontent(m):
+            return "yes" in m.content.lower() and m.author == ctx.author and m.channel == ctx.channel
+        def checkauthor(m):
+            return m.author == ctx.author and m.channel == ctx.channel
+        
         await ctx.send("Okay then. So you want to enable Princesses' Star Color Pens on this server-nyan. Am I right? You have only 10 seconds to answer. *only yes answer or ignore*")
-        def check(m):
-            return "yes" in m.content and m.author == ctx.author
         try:
-            answer = await self.bot.wait_for('message', check=check, timeout=10.0)
+            await self.bot.wait_for('message', check=checkcontent, timeout=10.0)
         except TimeoutError:
             return await ctx.send("Okay, I understand you. Well, then there are less problems for me-nyan.")
-        if answer:
-            await ctx.send("Now I need some permissions for working: `Manage Channels`, `Manage Roles`. Send any message when you'll give me them-nyan.")
-        def check(m):
-            return m.author == ctx.author
-        await self.bot.wait_for('message', check=check)
+        await ctx.send("Now I need some permissions for working: `Manage Channels`, `Manage Roles`. Send any message when you'll give me them-nyan.")
+        await self.bot.wait_for('message', check=checkauthor)
         perms = ctx.guild.me.guild_permissions
         if perms.manage_channels and perms.manage_roles:
             pass
         elif not perms.manage_channels or not perms.manage_roles:
             return await ctx.send("You didn't give me permissions-nyan. Do you know that it's a bad idea to ignore my words?")
+        await ctx.send("And just to be sure. Do you want to create a category for the finding Color Pens? You have only 10 seconds to answer. *only yes answer or ignore*")
         overwrites = {ctx.guild.me: PermissionOverwrite(manage_messages=True)}
-        category = await ctx.guild.create_category("Princesses' Star Color Pens", overwrites=overwrites)
-        channel = await ctx.guild.create_text_channel("main", category=category)
-        await ctx.send("Okay, the main work is done-nyan. You can change the position of the new category I created, but you must not remove any channels from it-nyan. And the category itself too.")
-        data = {"CategoryID": category.id, "MainChannelID": channel.id, "Teams": []}
+        try:
+            await self.bot.wait_for('message', check=checkcontent, timeout=10.0)
+            category = await ctx.guild.create_category("Star Color Pens")
+        except TimeoutError:
+            mawait ctx.send("Okay, I understand you. I'll not create a category, but I'll create a channel in the current category.")
+            category = ctx.channel.category
+        channel = await ctx.guild.create_text_channel("star-color-pens", category=category, overwrites=overwrites)
+        await ctx.send("Okay, the main work is done-nyan. You mustn't remove the channel created by me, but you can rename it or change it's category.")
+        data = {"MainChannelID": channel.id, "Teams": []}
         with open(f"guild-settings/{ctx.guild.id}/colorpens.json", "x") as file:
             json.dump(data, file)
 
@@ -68,10 +75,17 @@ class StarColorPensStart(commands.Cog):
     async def team_create(self, ctx, *, name:str=None):
         try:
             file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
+            data = json.load(file)
+            file.close()
         except FileNotFoundError:
             return await ctx.send("Princesses' Star Color Pens is disabled here-nyan.")
-        data = json.load(file)
-        file.close()
+        teams = data["Teams"]
+        for team in teams:
+            try:
+                if team["Leader"] == ctx.author.id: return await ctx.send("You have your own team. You don't need to create another.")
+                for member in ctx.guild.get_role(team["TeamRole"]).members:
+                    if member.id == ctx.author.id: return await ctx.send("You're in one team already. Why does you need your own?")
+            except KeyError: pass
         mainchannel = ctx.guild.get_channel(data["MainChannelID"])
         if name == None:
             await ctx.send("Hey, you need a team name, after all. I'll wait for a minute, when you'll send me the name-nyan.")
