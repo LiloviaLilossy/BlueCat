@@ -43,7 +43,7 @@ class StarColorPensStart(commands.Cog):
             await self.bot.wait_for('message', check=checkcontent, timeout=10.0)
             category = await ctx.guild.create_category("Star Color Pens")
         except TimeoutError:
-            mawait ctx.send("Okay, I understand you. I'll not create a category, but I'll create a channel in the current category.")
+            await ctx.send("Okay, I understand you. I'll not create a category, but I'll create a channel in the current category.")
             category = ctx.channel.category
         channel = await ctx.guild.create_text_channel("star-color-pens", category=category, overwrites=overwrites)
         await ctx.send("Okay, the main work is done-nyan. You mustn't remove the channel created by me, but you can rename it or change it's category.")
