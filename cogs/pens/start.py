@@ -62,10 +62,10 @@ class StarColorPensStart(commands.Cog):
         data = json.load(file)
         file.close()
         mainchannel = ctx.guild.get_channel(data["MainChannelID"])
-        category = mainchannel.category
-        for channel in category.text_channels:
-            await channel.delete()
-        await category.delete()
+        await mainchannel.delete()
+        for team in data["Teams"]:
+            teamchannel = ctx.guild.get_channel(data["TeamChannel"])
+            await teamchannel.delete()
         await ctx.send("Done. You can keep your roles, if you want.")
         remove(f"guild-settings/{ctx.guild.id}/colorpens.json")
 
@@ -79,18 +79,17 @@ class StarColorPensStart(commands.Cog):
             file.close()
         except FileNotFoundError:
             return await ctx.send("Princesses' Star Color Pens is disabled here-nyan.")
-        teams = data["Teams"]
-        for team in teams:
-            try:
-                if team["Leader"] == ctx.author.id: return await ctx.send("You have your own team. You don't need to create another.")
-                for member in ctx.guild.get_role(team["TeamRole"]).members:
-                    if member.id == ctx.author.id: return await ctx.send("You're in one team already. Why does you need your own?")
-            except KeyError: pass
+
+        checkteams = await is_in_any_team(ctx, data)
+        if checkteams != False:
+            return await ctx.send("Sorry, but I'll not allow this. You have your own team.")
+
+        def check(m):
+            return m.author == ctx.author
+
         mainchannel = ctx.guild.get_channel(data["MainChannelID"])
         if name == None:
             await ctx.send("Hey, you need a team name, after all. I'll wait for a minute, when you'll send me the name-nyan.")
-            def check(m):
-                return m.author == ctx.author
             try:
                 answer = await self.bot.wait_for('message', check=check, timeout=60.0)
             except TimeoutError:
@@ -127,7 +126,8 @@ class StarColorPensStart(commands.Cog):
             team = data["Teams"][name]
         except KeyError:
             return await ctx.send("There are no team with that name here-nyan.")
-        if team["Leader"] != ctx.author.id:
+        check = await is_team_leader(ctx, team)
+        if check == True:
             return await ctx.send("Hey! You aren't the owner of this team!")
         await ctx.send(f"Okay. Goodbye, {name}")
         teamchannel = ctx.guild.get_channel(team["TeamChannel"])

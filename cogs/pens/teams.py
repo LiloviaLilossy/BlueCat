@@ -1,4 +1,5 @@
 import json
+from addons.check import is_in_any_team, is_team_leader
 from discord import Embed, utils
 from discord.ext import commands
 
@@ -13,12 +14,15 @@ class StarColorPensTeams(commands.Cog):
     async def team_join(self, ctx, *, name=None):
         try:
             file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
+            data = json.load(file)
+            file.close()
         except FileNotFoundError:
             return await ctx.send("Princesses' Star Color Pens is disabled here-nyan.")
+        checkteams = await is_in_any_team(ctx, data)
+        if checkteams == True:
+            return await ctx.send("Sorry, but I'll not allow this. You have your own team.")
         if name == None:
             return await ctx.send("You know, you can't join nothing. Maybe you'll say, which team do you want to join-nyan?")
-        data = json.load(file)
-        file.close()
         try:
             team = data["Teams"][name]
         except KeyError:
@@ -37,21 +41,18 @@ class StarColorPensTeams(commands.Cog):
     @commands.guild_only()
     @commands.bot_has_permissions(manage_roles=True)
     @commands.command(name="team-leave")
-    async def team_leave(self, ctx, *, name=None):
+    async def team_leave(self, ctx):
         try:
             file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
+            data = json.load(file)
+            file.close()
         except FileNotFoundError:
             return await ctx.send("Princesses' Star Color Pens is disabled here-nyan.")
-        if name == None:
-            return await ctx.send("You know, you can't leave nothing. Maybe you'll say, which team do you want to leave-nyan?")
-        data = json.load(file)
-        file.close()
-        try:
-            team = data["Teams"][name]
-        except KeyError:
-            return await ctx.send("There are no team with that name here-nyan.")
+        checkteams = await is_in_any_team(ctx, data)
+        if checkteams == False:
+            return await ctx.send("You know, you can't leave nothing.")
         await ctx.send(f"Okay-nyan. Give me second.")
-        role = ctx.guild.get_role(team["TeamRole"])
+        role = ctx.guild.get_role(checkteams)
         await ctx.author.remove_roles(role)
         await ctx.send(f"Goodbye.☆")
 
