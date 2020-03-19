@@ -31,8 +31,8 @@ class ErrorHandler(commands.Cog):
 			ue.add_field(name="Missing Permissions:", value="Maybe you'll check your and my permissions? Seems like someone from us both can't do it now.")
 		else:
 			ue.description = "**I don't know what happened.**"
-			ue.add_field(name="Something went too wrong:", value="Seems like there are something my owner missed. I already said them about this. \n ```\n"+error+"\n```")
-			oe.add_field(name="Guild ID: "+ctx.guild.id, value="Member ID: "+ctx.author.id+"\nError: \n```\n"+error+"\n```")
+			ue.add_field(name="Something went too wrong:", value="Seems like there are something my owner missed. I already said them about this. \n ```\n"+str(error)+"\n```")
+			oe.add_field(name="Guild ID: "+ctx.guild.id, value="Member ID: "+ctx.author.id+"\nError: \n```\n"+str(error)+"\n```")
 			channel = self.bot.get_channel(id=690255812647583879)
 			await channel.send(embed=oe)
 		await ctx.send(embed=ue)
