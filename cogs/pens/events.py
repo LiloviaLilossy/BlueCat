@@ -6,11 +6,11 @@ class StarColorPensEvents(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
 		self.name = "Princesses' Star Color Pens: Events"
-		self.minutes = randint(1, 60)
+		# self.minutes = randint(1, 60)
 	
-	@tasks.loop(minutes=self.minutes)
+	@tasks.loop(minutes=randint(1, 60))
 	async def event_send(self):
-		self.minutes = randint(1, 60)
+		# self.minutes = randint(1, 60)
 		for guild in self.bot.guilds:
 			try: 
 				settings = open(f"guild-settings/{guild.id}/colorpens.json", "r")

@@ -74,7 +74,7 @@ class StarColorPensTeams(commands.Cog):
         channel = ctx.guild.get_channel(team["TeamChannel"])
         role = ctx.guild.get_role(team["TeamRole"])
         leader = utils.get(ctx.guild.members, id=team["Leader"])
-        e = Embed()
+        e = Embed(colour=self.bot.defaultcolor)
         e.add_field(name="Team info:", value="**Team name:** "+name+"\n**Team channel:** "+channel.mention+"\n**Team role:** "+role.mention+"\n**Member count:** "+str(len(role.members)))
         e.add_field(name="Team Leader info:", value="**Username:** "+leader.display_name+"\n**Is online?** "+str(leader.status))
         await ctx.send(embed=e)
