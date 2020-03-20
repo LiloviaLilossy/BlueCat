@@ -36,7 +36,7 @@ class Fun(commands.Cog):
         embed.set_footer(text="Powered by api.qrserver.com")
         await msg.edit(embed=embed)
 	
-    @commands.command(name="bluecat-random", aliases=["randombluecat", "image-bluecat"])
+    @commands.command(name="img", aliases=["randomimg", "bluecatimg"])
     async def randomyuniimage(self, ctx):
         with open("bot-settings/images.json", "r") as file:
             data = json.load(file)
@@ -46,7 +46,16 @@ class Fun(commands.Cog):
         embed.set_image(url=image)
         embed.set_footer(text="Just an image of me-nyan! "+str(data["urls"].index(image))+"/"+str(len(data["urls"])))
         await ctx.send(embed=embed)
-		
+
+    @commands.command(name="cat", aliases=["catimg"])
+    async def randomcatimage(self, ctx, *, text=None):
+        e = Embed(colour=self.bot.defaultcolor)
+        if text:
+            e.set_image(url="https://cataas.com/cat/says/"+text+"?size=50")
+        else:
+            e.set_image(url="https://cataas.com/cat")
+        e.set_footer(text="Powered by cataas.com's API")
+        await ctx.send(embed=e)
 
 def setup(bot):
     bot.add_cog(Fun(bot))

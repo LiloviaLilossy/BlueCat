@@ -5,7 +5,7 @@ class ErrorHandler(commands.Cog):
 	def __init__(self, bot):
 		bot.errorcolor = discord.Color.from_rgb(255, 0, 0)
 		self.bot = bot
-		self.name = "..."
+		self.name = "Error Handler"
 	
 	@commands.Cog.listener()
 	async def on_command_error(self, ctx, error):
@@ -20,12 +20,12 @@ class ErrorHandler(commands.Cog):
 		elif isinstance(error, commands.NoPrivateMessage):
 			ue.description = "**No DMs.**"
 			ue.add_field(name="No Private Message:", value="You can't use this command in DMs, only in servers.")
-		elif isinstance(error, commands.CheckFailure):
-			ue.description = "**Checks failed.**"
-			ue.add_field(name="Check Failure:", value="Seems like you don't have something for running this command. I'm unsure what is this something, but maybe if you'll check your permissions...")
 		elif isinstance(error, commands.NotOwner):
 			ue.description = "**Checks failed.**"
 			ue.add_field(name="Not Owner:", value="You can't run this command because you aren't a bot owner. And that's good.")
+		elif isinstance(error, commands.CheckFailure):
+			ue.description = "**Checks failed.**"
+			ue.add_field(name="Check Failure:", value="Seems like you don't have something for running this command. I'm unsure what is this something, but maybe if you'll check your permissions...")
 		elif isinstance(error, commands.MissingPermissions) or isinstance(error, commands.BotMissingPermissions):
 			ue.description = "**Checks failed.**"
 			ue.add_field(name="Missing Permissions:", value="Maybe you'll check your and my permissions? Seems like someone from us both can't do it now.")
