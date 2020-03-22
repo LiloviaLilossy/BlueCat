@@ -4,7 +4,7 @@ from json import dump, load
 class BotListeners(commands.Cog):
 	def __init__(self, bot):
 		self.bot = bot
-		self.name = "Bot listeners"
+		self.name = "Bot listеners"
 	
 	@commands.Cog.listener()
 	async def on_command_completion(self, ctx):
