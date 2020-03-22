@@ -12,7 +12,7 @@ class Owner(commands.Cog):
         if ctx.author.id in get_smth("owner"):
             return True
         else:
-            return commands.NotOwner("You aren't a bot owner-nyan!")
+            raise commands.NotOwner("You aren't a bot owner-nyan!")
 
     @commands.command(name="reload", aliases=["r"])
     async def _reload(self, ctx, cog="*"):
