@@ -28,7 +28,7 @@ class Fun(commands.Cog):
     @commands.command(name="qr", aliases=["qrcode"])
     async def qrcode(self, ctx, text=None):
         if not text:
-            return await ctx.send("Maybe, it'll be better, *if you'll send anything to encode?*")
+            raise commands.BadArgument("Maybe, it'll be better, *if you'll send anything to encode?*")
         msg = await ctx.send("Let's see, what we can do with this...")
         embed = Embed(title="Something like this, I think.", colour=self.bot.defaultcolor)
         embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
@@ -54,8 +54,7 @@ class Fun(commands.Cog):
             e.set_image(url="https://cataas.com/cat/says/"+text+"?size=50")
         else:
             e.set_image(url="https://cataas.com/cat")
-        e.set_footer(text="Powered by cataas.com's API")
+        e.set_footer(text="Powered by cataas.com's API | I don't know how 2 make images random in that API, but it works.")
         await ctx.send(embed=e)
-
 def setup(bot):
     bot.add_cog(Fun(bot))

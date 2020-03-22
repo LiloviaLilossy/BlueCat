@@ -42,7 +42,7 @@ class Owner(commands.Cog):
     @commands.command(name="presence", aliases=["change-presence", "cp"])
     async def presence(self, ctx, text=None):
         if text==None:
-            return await ctx.send("Seriously? Are you thinking I'll 'play' *nothing*?")
+            raise commands.BadArgument("Seriously? Are you thinking I'll 'play' *nothing*?")
         game = Game(name=text+" | bc~help for help")
         await self.bot.change_presence(activity=game)
         await ctx.send(f"Done. The presence is {text} for now-nyan!")

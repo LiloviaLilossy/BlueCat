@@ -35,7 +35,7 @@ class Moderation(commands.Cog):
     @commands.command(name="ban")
     async def ban(self, ctx, user:Member=None, reason:str=None): 
         if not user:
-            return await ctx.send("Do you know you can't ban nothing?")
+            raise commands.BadArgument("Do you know you can't ban nothing?")
         if not reason:
             reason = "Banned by Blue Cat, bye-bye-nyan!☆"
         try:
@@ -49,7 +49,7 @@ class Moderation(commands.Cog):
     @commands.command(name="kick")
     async def kick(self, ctx, user:Member=None, reason:str=None):
         if not user:
-            return await ctx.send("Do you know you can't kick the air? It looks strange.")
+            raise commands.BadArgument("Do you know you can't kick the air? It looks strange.")
         if not reason:
             reason = "Kicked by Blue Cat, see you later."
         try:

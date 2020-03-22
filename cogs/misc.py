@@ -1,7 +1,9 @@
+import datetime
 import json
 from addons.get_something import get_smth
 from discord import Embed, utils, Color
 from discord.ext import commands
+from humanize import naturaltime
 from sys import version, platform
 
 class Misc(commands.Cog):
@@ -83,6 +85,23 @@ class Misc(commands.Cog):
         e.add_field(name="So, you need help with me. Here's an invite, try ask them.", value="[here](https://discord.gg/Z2nKuYG)")
         e.set_footer(text="Nyan! Blue Cat-bot v1.0")
         await ctx.send(embed=e)
+    
+    @commands.command(name="suggest", aliases=["suggestion"])
+    async def suggestion(self, ctx, *, suggestion=None):
+        if suggestion == None:
+            raise commands.BadArgument("You can't suggest nothing.")
+        ue = Embed(colour=self.bot.defaultcolor)
+        ue.set_author(name=ctx.author)
+        ue.add_field(name="Your suggestion now is in the support server, where you can check when it'll be approved(or denied).", value="**Your suggestion:** \n"+suggestion)
+        ue.timestamp = datetime.datetime.now()
+        await ctx.send(embed=ue)
+        
+        oe = Embed(colour=self.bot.defaultcolor)
+        oe.set_author(name=ctx.author)
+        oe.add_field(name="New suggestion!", value="**From:** "+str(ctx.guild)+"\n**Suggestion**:\n"+suggestion)
+        oe.timestamp = datetime.datetime.now()
+        channel = self.bot.get_channel(id=690843403507728406)
+        await channel.send(embed=oe)
 
 def setup(bot):
     bot.add_cog(Misc(bot))
