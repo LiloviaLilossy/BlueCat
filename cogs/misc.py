@@ -109,7 +109,7 @@ class Misc(commands.Cog):
     async def giveaway(self, ctx, thing: str, howlong:int=60, howmany:int=1):
     	await ctx.send(f"Okay-nyan! {howmany} {thing.title()} giveaway started and will end in {howlong} minutes!", delete_after=10)
     	e = Embed(colour=self.bot.defaultcolor)
-    	e.set_author(name="Giveaway by "+ctx.author)
+    	e.set_author(name="Giveaway by "+str(ctx.author))
     	e.add_field(name=str(howmany)+" "+thing, value="Click on reaction below to win!")
     	e.set_footer(text="Giveaway will end in "+str(howlong)+" minutes!")
     	emote = utils.get(bot.emojis, name='BlueCatWink')
