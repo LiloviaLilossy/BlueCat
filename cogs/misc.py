@@ -112,7 +112,7 @@ class Misc(commands.Cog):
     	e.set_author(name="Giveaway by "+str(ctx.author))
     	e.add_field(name=str(howmany)+" "+thing, value="Click on reaction below to win!")
     	e.set_footer(text="Giveaway will end in "+str(howlong)+" minutes!")
-    	emote = utils.get(bot.emojis, name='BlueCatWink')
+    	emote = utils.get(self.bot.emojis, name='BlueCatWink')
     	msg = await ctx.send(embed=e)
     	await msg.add_reaction(emote)
     	await sleep(howlong*60)
