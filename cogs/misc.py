@@ -123,7 +123,7 @@ class Misc(commands.Cog):
                 for i in range(howmany):
                     winner = choice(users)
                     while winner == self.bot.user:
-                        winner = random.choice(users)
+                        winner = choice(users)
                     winners.append(winner)
                 await ctx.send("Giveaway is done! "+", ".join(winners)+f" will get {thing} from {ctx.author.mention}!")
 
