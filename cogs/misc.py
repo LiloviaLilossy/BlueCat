@@ -1,9 +1,11 @@
 import datetime
 import json
 from addons.get_something import get_smth
+from asyncio import sleep
 from discord import Embed, utils, Color
 from discord.ext import commands
 from humanize import naturaltime
+from random import choice
 from sys import version, platform
 
 class Misc(commands.Cog):
@@ -102,6 +104,28 @@ class Misc(commands.Cog):
         oe.timestamp = datetime.datetime.now()
         channel = self.bot.get_channel(id=690843403507728406)
         await channel.send(embed=oe)
+
+    @commands.command(name="giveaway")
+    async def giveaway(self, ctx, thing: str, howlong:int=60, howmany:int=1):
+    	await ctx.send(f"Okay-nyan! {howmany} {thing.title()} giveaway started and will end in {howlong} minutes!", delete_after=10)
+    	e = Embed(colour=self.bot.defaultcolor)
+    	e.set_author(name="Giveaway by "+ctx.author)
+    	e.add_field(name=str(howmany)+" "+thing, value="Click on reaction below to win!")
+    	e.set_footer(text="Giveaway will end in "+str(howlong)+" minutes!")
+    	emote = utils.get(bot.emojis, name='BlueCatWink')
+    	msg = await ctx.send(embed=e)
+    	await msg.add_reaction(emote)
+    	await sleep(howlong*60)
+    	winners = []
+    	for reaction in msg.reactions:
+            if reaction.emoji == emote:
+                users = await msg.reactions.users().flatten()
+                for i in range(howmany):
+                    winner = choice(users)
+                    while winner == self.bot.user:
+                        winner = random.choice(users)
+                    winners.append(winner)
+                await ctx.send("Giveaway is done! "+", ".join(winners)+f" will get {thing} from {ctx.author.mention}!")
 
 def setup(bot):
     bot.add_cog(Misc(bot))

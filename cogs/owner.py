@@ -1,7 +1,7 @@
 import json
 from addons.get_something import get_smth
 from discord import Game, utils
-from discord.ext import commands, flags
+from discord.ext import commands
 
 class Owner(commands.Cog):
     def __init__(self, bot):
