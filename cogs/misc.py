@@ -33,7 +33,8 @@ class Misc(commands.Cog):
 ```
         """
         embed = Embed(colour=self.bot.defaultcolor)
-        embed.add_field(text="Blue Cat Changelog!", value=text)
+        embed.add_field(name="Blue Cat Changelog!", value=text)
+        embed.set_image(url="https://media.discordapp.net/attachments/616645258280828949/691873654639820900/changelog.png")
         embed.set_footer(text="Nyan! Blue Cat-bot v1.0")
         await ctx.send(embed=embed)
 
@@ -56,6 +57,7 @@ class Misc(commands.Cog):
         embed = Embed(colour=self.bot.defaultcolor)
         embed.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
         embed.set_footer(text="Nyan! Blue Cat-bot v1.0")
+        embed.set_image(url="https://media.discordapp.net/attachments/616645258280828949/691873653188460584/botinfo.png")
         for cog in sorted(self.bot.cogs, reverse=True):
             help_value = ""
             c = self.bot.get_cog(cog)

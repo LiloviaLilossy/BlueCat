@@ -11,9 +11,9 @@ class BotListeners(commands.Cog):
 		with open("bot-settings/invokedcmds.json", "r") as f:
 			data = load(f)
 		try:
-			data[ctx.command] += 1
+			data[str(ctx.command)] += 1
 		except KeyError:
-			data[ctx.command] = 1
+			data[str(ctx.command)] = 1
 		with open("bot-settings/invokedcmds.json", "w") as f:
 			dump(data, f)
 
