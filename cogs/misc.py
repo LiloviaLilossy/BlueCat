@@ -19,7 +19,7 @@ class Misc(commands.Cog):
     async def botinfo(self, ctx):
         embed = Embed(colour=self.bot.defaultcolor)
         embed.add_field(name="Owner info:", value="**Username:** LiloviaLilossy#1830\n**ID:**516280857468731395")
-        embed.add_field(name="Bot info:", value="**Bot users:** "+str(len(self.bot.users))+"\n**Bot guilds:** "+str(len(self.bot.guilds))+"\n**Python version:** "+str(version)+"\n**OS:** "+platform)
+        embed.add_field(name="Bot info:", value="**Bot users:** {0}\n**Bot guilds:** {1}\n**Python version:** {2}\n**OS:** {3}\n**Ping:** {4:.2f}ms".format(len(self.bot.users), len(self.bot.guilds), version, platform, self.bot.latency*1000))
         embed.add_field(name="Bot links:", value="**Invite:** [click here](https://discordapp.com/api/oauth2/authorize?client_id=676417304707203132&permissions=379968&scope=bot) \n**Support server:** [click here](https://discord.gg/Z2nKuYG) \n**Source code:** [click here](https://github.com/LiloviaLilossy/BlueCat)")
         embed.set_footer(text="Nyan! Blue Cat-bot v1.0")
         await ctx.send(embed=embed)
