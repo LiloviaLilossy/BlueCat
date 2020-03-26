@@ -26,13 +26,14 @@ class Fun(commands.Cog):
         await msg.edit(embed=embed)
 	
     @commands.command(name="qr", aliases=["qrcode"])
-    async def qrcode(self, ctx, text=None):
+    async def qrcode(self, ctx, *, text=None):
         if not text:
             raise commands.BadArgument("Maybe, it'll be better, *if you'll send anything to encode?*")
+        text = text.split()
         msg = await ctx.send("Let's see, what we can do with this...")
         embed = Embed(title="Something like this, I think.", colour=self.bot.defaultcolor)
         embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
-        embed.set_image(url=f"https://api.qrserver.com/v1/create-qr-code/?data={text}")
+        embed.set_image(url="https://api.qrserver.com/v1/create-qr-code/?data="+"+".join(text))
         embed.set_footer(text="Powered by api.qrserver.com -nyan!")
         await msg.edit(embed=embed)
 	
