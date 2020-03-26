@@ -33,7 +33,7 @@ class Fun(commands.Cog):
         embed = Embed(title="Something like this, I think.", colour=self.bot.defaultcolor)
         embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
         embed.set_image(url=f"https://api.qrserver.com/v1/create-qr-code/?data={text}")
-        embed.set_footer(text="Powered by api.qrserver.com")
+        embed.set_footer(text="Powered by api.qrserver.com -nyan!")
         await msg.edit(embed=embed)
 	
     @commands.command(name="img", aliases=["randomimg", "bluecatimg"])
@@ -55,6 +55,7 @@ class Fun(commands.Cog):
             async with session.get(url) as resp:
                 data = await resp.json()
         e.set_image(url=data["file"])
+        e.set_footer(text="Powered by aws.random.cat -nyan!")
         await ctx.send(embed=e)
 def setup(bot):
     bot.add_cog(Fun(bot))
