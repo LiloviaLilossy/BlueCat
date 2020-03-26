@@ -50,11 +50,11 @@ class Fun(commands.Cog):
     @commands.command(name="cat", aliases=["catimg"])
     async def randomcatimage(self, ctx, *, text=None):
         e = Embed(colour=self.bot.defaultcolor)
-        if text:
-            e.set_image(url="https://cataas.com/cat/says/"+text+"?size=50")
-        else:
-            e.set_image(url="https://cataas.com/cat")
-        e.set_footer(text="Powered by cataas.com's API | I don't know how 2 make images random in that API, but it works.")
+        url = "http://aws.random.cat/meow"
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url) as resp:
+                data = await resp.json()
+        e.set_image(url=data["file"])
         await ctx.send(embed=e)
 def setup(bot):
     bot.add_cog(Fun(bot))
