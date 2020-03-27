@@ -28,8 +28,7 @@ class Fun(commands.Cog):
 	
     @commands.command(name="qr", aliases=["qrcode"])
     async def qrcode(self, ctx, *, text=None):
-        if not text:
-            raise commands.BadArgument("Maybe, it'll be better, *if you'll send anything to encode?*")
+        if not text: raise commands.BadArgument("Maybe, it'll be better, *if you'll send anything to encode?*")
         text = text.split()
         msg = await ctx.send("Let's see, what we can do with this...")
         embed = Embed(title="Something like this, I think.", colour=self.bot.defaultcolor)
@@ -66,11 +65,24 @@ class Fun(commands.Cog):
 
     @encodegroup.command(name="b64")
     async def b64(self, ctx, *, text:str=None):
-        if text == None:
-            raise commands.BadArgument("You can't encode no text-nyan!")
+        if not text: raise commands.BadArgument("You can't encode no text-nyan!")
         text = text.encode()
         out = base64.b64encode(text)
         await ctx.send(f"Your encoded text: {out}")
+
+    @commands.command(name="emoji")
+    async def emojisend(self, ctx, *, letters:str=None):
+        if not letters: raise commands.BadArgument("I can't send emoji letters from nothing, y'know?")
+        blocked = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-",
+            "_", "=", "+", "[", "{", "]", "}", "\\", "|", ";", ":", "'",
+            '"', ",", "<", ".", ">", "?", "/"]
+        letters = list(letters)
+        emojis = ""
+        for i in letters:
+            if i in blocked: continue
+            if i == " ": emojis+= "  "
+            else: emojis+= ":regional_indicator_"+i.lower()+":"
+        await ctx.send(emojis)
 
 def setup(bot):
     bot.add_cog(Fun(bot))
