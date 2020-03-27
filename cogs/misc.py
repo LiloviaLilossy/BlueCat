@@ -109,25 +109,27 @@ class Misc(commands.Cog):
 
     @commands.command(name="giveaway")
     async def giveaway(self, ctx, thing: str, howlong:int=60, howmany:int=1):
-    	await ctx.send(f"Okay-nyan! {howmany} {thing.title()} giveaway started and will end in {howlong} minutes!", delete_after=10)
-    	e = Embed(colour=self.bot.defaultcolor)
-    	e.set_author(name="Giveaway by "+str(ctx.author))
-    	e.add_field(name=str(howmany)+" "+thing, value="Click on reaction below to win!")
-    	e.set_footer(text="Giveaway will end in "+str(howlong)+" minutes!")
-    	emote = utils.get(self.bot.emojis, name='BlueCatWink')
-    	msg = await ctx.send(embed=e)
-    	await msg.add_reaction(emote)
-    	await sleep(howlong*60)
-    	winners = []
-    	for reaction in msg.reactions:
+        await ctx.send(f"Okay-nyan! {howmany} {thing.title()} giveaway started and will end in {howlong} minutes!", delete_after=10)
+        e = Embed(colour=self.bot.defaultcolor)
+        e.set_author(name="Giveaway by "+str(ctx.author))
+        e.add_field(name=str(howmany)+" "+thing, value="Click on reaction below to win!")
+        e.set_footer(text="Giveaway will end in "+str(howlong)+" minutes!")
+        emote = utils.get(self.bot.emojis, name='BlueCatWink')
+        msg = await ctx.send(embed=e)
+        await msg.add_reaction(emote)
+        await sleep(howlong*60)
+        winners = []
+        reacts = (await ctx.channel.fetch_message(msg.id)).reactions
+        for reaction in reacts:
+            await ctx.send("[DEBUG] started checking")
             if reaction.emoji == emote:
-                users = await msg.reactions.users().flatten()
+                users = await reaction.users().flatten()
                 for i in range(howmany):
                     winner = choice(users)
                     while winner == self.bot.user:
                         winner = choice(users)
-                    winners.append(winner)
-                await ctx.send("Giveaway is done! "+", ".join(winners)+f" will get {thing} from {ctx.author.mention}!")
+                    winners.append(winner.mention)
+                await ctx.send("Giveaway is done! " + ", ".join(winners) + f" will get {thing} from {ctx.author.mention}!")
 
 def setup(bot):
     bot.add_cog(Misc(bot))
