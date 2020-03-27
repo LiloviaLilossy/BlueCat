@@ -121,7 +121,6 @@ class Misc(commands.Cog):
         winners = []
         reacts = (await ctx.channel.fetch_message(msg.id)).reactions
         for reaction in reacts:
-            await ctx.send("[DEBUG] started checking")
             if reaction.emoji == emote:
                 users = await reaction.users().flatten()
                 for i in range(howmany):
