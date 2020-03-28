@@ -51,30 +51,6 @@ class Misc(commands.Cog):
         embed.add_field(name="Bot prefixes for "+ctx.guild.name, value=prefixes)
         embed.set_footer(text="Nyan! Blue Cat-bot v1.0")
         await ctx.send(embed=embed)
-
-    @commands.command(name="help")
-    async def help(self, ctx):
-        embed = Embed(colour=self.bot.defaultcolor)
-        embed.set_author(name=ctx.author.name, icon_url=ctx.author.avatar_url)
-        embed.set_footer(text="Nyan! Blue Cat-bot v1.0")
-        embed.set_image(url="https://media.discordapp.net/attachments/616645258280828949/691873653188460584/botinfo.png")
-        for cog in sorted(self.bot.cogs, reverse=True):
-            help_value = ""
-            c = self.bot.get_cog(cog)
-            if cog == "Jishaku":
-                c.name = "Jishaku"
-            cmds = c.get_commands()
-            if cmds != []:
-                for cmd in cmds:
-                    if cmd.hidden == True:
-                        pass
-                    elif cmd.aliases:
-                        help_value += f"`{cmd} | "+" | ".join(cmd.aliases) + "`☆"
-                    else:
-                        help_value += f"`{cmd}`☆"
-                if help_value != "":
-                    embed.add_field(name=c.name, value=help_value)
-        await ctx.send(embed=embed)
     
     @commands.command(name="invite")
     async def invite(self, ctx):
@@ -108,7 +84,9 @@ class Misc(commands.Cog):
         await channel.send(embed=oe)
 
     @commands.command(name="giveaway")
-    async def giveaway(self, ctx, thing: str, howlong:int=60, howmany:int=1):
+    async def giveaway(self, ctx, thing:str=None, howlong:int=None, howmany:int=None):
+        if not thing or not howmany: raise commands.BadArgument("You can't giveaway nothing.")
+        if not howlong: raise commands.BadArgument("You can't start giveaway for 0 minutes.")
         await ctx.send(f"Okay-nyan! {howmany} {thing.title()} giveaway started and will end in {howlong} minutes!", delete_after=10)
         e = Embed(colour=self.bot.defaultcolor)
         e.set_author(name="Giveaway by "+str(ctx.author))
