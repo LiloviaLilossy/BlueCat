@@ -10,7 +10,7 @@ class StarColorPensTeams(commands.Cog):
 
     @commands.guild_only()
     @commands.bot_has_permissions(manage_roles=True)
-    @commands.command(name="team-join")
+    @commands.command(name="team-join", usage=" <name>")
     async def team_join(self, ctx, *, name=None):
         try:
             file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
@@ -40,7 +40,7 @@ class StarColorPensTeams(commands.Cog):
 
     @commands.guild_only()
     @commands.bot_has_permissions(manage_roles=True)
-    @commands.command(name="team-leave")
+    @commands.command(name="team-leave", usage="")
     async def team_leave(self, ctx):
         try:
             file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
@@ -57,7 +57,7 @@ class StarColorPensTeams(commands.Cog):
         await ctx.send(f"Goodbye.☆")
 
     @commands.guild_only()
-    @commands.command(name="team-info", aliases=["team"])
+    @commands.command(name="team-info", aliases=["team"], usage=" <name>")
     async def team_info(self, ctx, *, name=None):
         try:
             file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")

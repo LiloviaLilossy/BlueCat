@@ -8,7 +8,7 @@ class Moderation(commands.Cog):
         self.name = "Moderation"
 
     @commands.has_permissions(manage_guild=True)
-    @commands.command(name="addprefix", aliases=["ap", "add-prefix"])
+    @commands.command(name="addprefix", aliases=["ap", "add-prefix"], usage=" <prefix>")
     async def addprefix(self, ctx, prefix):
         with open(f"guild-settings/{ctx.guild.id}/prefixes.json", "r") as file:
             data = json.load(file)
@@ -18,7 +18,7 @@ class Moderation(commands.Cog):
         await ctx.send(f"Fine. \"{prefix}\" will work in this guild.")
         
     @commands.has_permissions(manage_guild=True)
-    @commands.command(name="removeprefix", aliases=["rp", "remove-prefix"])
+    @commands.command(name="removeprefix", aliases=["rp", "remove-prefix"], usage=" <prefix>")
     async def removeprefix(self, ctx, prefix):
         with open(f"guild-settings/{ctx.guild.id}/prefixes.json", "r") as file:
             data = json.load(file)
@@ -32,7 +32,7 @@ class Moderation(commands.Cog):
 
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
-    @commands.command(name="ban")
+    @commands.command(name="ban", usage=" <user> [reason]")
     async def ban(self, ctx, user:Member=None, reason:str=None): 
         if not user:
             raise commands.BadArgument("Do you know you can't ban nothing?")
@@ -46,7 +46,7 @@ class Moderation(commands.Cog):
         
     @commands.has_permissions(kick_members=True)
     @commands.bot_has_permissions(kick_members=True)
-    @commands.command(name="kick")
+    @commands.command(name="kick", usage=" <user> [reason]")
     async def kick(self, ctx, user:Member=None, reason:str=None):
         if not user:
             raise commands.BadArgument("Do you know you can't kick the air? It looks strange.")

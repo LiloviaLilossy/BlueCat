@@ -48,9 +48,9 @@ class HelpCog(commands.Cog):
             cmds = cog.get_commands()
             for cmd in cmds:
                 if cmd.aliases:
-                    help_value += f"`{ctx.prefix}{cmd}|"+"|".join(cmd.aliases)+"`\n"
+                    help_value += f"`{ctx.prefix}{cmd}|"+"|".join(cmd.aliases)+cmd.usage+"`\n"
                 else:
-                    help_value += f"`{ctx.prefix}{cmd}`\n"
+                    help_value += f"`{ctx.prefix}{cmd}{cmd.usage}`\n"
         embed.add_field(name="Star Color Pens!", value=help_value)
         await ctx.send(embed=embed)
 
@@ -65,9 +65,9 @@ class HelpCog(commands.Cog):
         help_value = ""
         for cmd in cmds:
             if cmd.aliases:
-                help_value += f"`{ctx.prefix}{cmd}|"+"|".join(cmd.aliases)+"`\n"
+                help_value += f"`{ctx.prefix}{cmd}|"+"|".join(cmd.aliases)+cmd.usage+"`\n"
             else:
-                help_value += f"`{ctx.prefix}{cmd}`\n"
+                help_value += f"`{ctx.prefix}{cmd}{cmd.usage}`\n"
         embed.add_field(name="Fun commands!", value=help_value)
         await ctx.send(embed=embed)
 
@@ -82,9 +82,9 @@ class HelpCog(commands.Cog):
         help_value = ""
         for cmd in cmds:
             if cmd.aliases:
-                help_value += f"`{ctx.prefix}{cmd}|"+"|".join(cmd.aliases)+"`\n"
+                help_value += f"`{ctx.prefix}{cmd}|"+"|".join(cmd.aliases)+cmd.usage+"`\n"
             else:
-                help_value += f"`{ctx.prefix}{cmd}`\n"
+                help_value += f"`{ctx.prefix}{cmd}{cmd.usage}`\n"
         embed.add_field(name="Misc commands!", value=help_value)
         await ctx.send(embed=embed)
 
@@ -99,9 +99,9 @@ class HelpCog(commands.Cog):
         help_value = ""
         for cmd in cmds:
             if cmd.aliases:
-                help_value += f"`{ctx.prefix}{cmd}|"+"|".join(cmd.aliases)+"`\n"
+                help_value += f"`{ctx.prefix}{cmd}|"+"|".join(cmd.aliases)+cmd.usage+"`\n"
             else:
-                help_value += f"`{ctx.prefix}{cmd}`\n"
+                help_value += f"`{ctx.prefix}{cmd}{cmd.usage}`\n"
         embed.add_field(name="Moderation commands!", value=help_value)
         await ctx.send(embed=embed)
 
@@ -116,9 +116,9 @@ class HelpCog(commands.Cog):
         help_value = ""
         for cmd in cmds:
             if cmd.aliases:
-                help_value += f"`{ctx.prefix}{cmd}|"+"|".join(cmd.aliases)+"`\n"
+                help_value += f"`{ctx.prefix}{cmd}|"+"|".join(cmd.aliases)+cmd.usage+"`\n"
             else:
-                help_value += f"`{ctx.prefix}{cmd}`\n"
+                help_value += f"`{ctx.prefix}{cmd}{cmd.usage}`\n"
         embed.add_field(name="Owner commands! They can be invoked only by bot owner.", value=help_value)
         await ctx.send(embed=embed)
 

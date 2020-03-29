@@ -15,7 +15,7 @@ class Misc(commands.Cog):
         self.name = "Misc"
         self.owner = utils.get(self.bot.users, id=516280857468731395)
 
-    @commands.command(name="botinfo")
+    @commands.command(name="botinfo", usage="")
     async def botinfo(self, ctx):
         embed = Embed(colour=self.bot.defaultcolor)
         embed.add_field(name="Owner info:", value="**Username:** LiloviaLilossy#1830\n**ID:**516280857468731395")
@@ -24,7 +24,7 @@ class Misc(commands.Cog):
         embed.set_footer(text="Nyan! Blue Cat-bot v1.0")
         await ctx.send(embed=embed)
 
-    @commands.command(name="changelog")
+    @commands.command(name="changelog", usage="")
     async def changelog(self, ctx):
         changelog = get_smth("changelog")
         text = f"""
@@ -38,7 +38,7 @@ class Misc(commands.Cog):
         embed.set_footer(text="Nyan! Blue Cat-bot v1.0")
         await ctx.send(embed=embed)
 
-    @commands.command(name="prefixes", aliases=["prefix"])
+    @commands.command(name="prefixes", aliases=["prefix"], usage="")
     async def prefixes(self, ctx):
         embed = Embed(colour=self.bot.defaultcolor)
         with open(f"guild-settings/{ctx.guild.id}/prefixes.json", "r") as file:
@@ -52,21 +52,21 @@ class Misc(commands.Cog):
         embed.set_footer(text="Nyan! Blue Cat-bot v1.0")
         await ctx.send(embed=embed)
     
-    @commands.command(name="invite")
+    @commands.command(name="invite", usage="")
     async def invite(self, ctx):
         e = Embed(colour=self.bot.defaultcolor)
         e.add_field(name="Invite me to your server!", value="[here](https://discordapp.com/api/oauth2/authorize?client_id=676417304707203132&permissions=379968&scope=bot)")
         e.set_footer(text="Nyan! Blue Cat-bot v1.0")
         await ctx.send(embed=e)
     
-    @commands.command(name="support")
+    @commands.command(name="support", usage="")
     async def support(self, ctx):
         e = Embed(colour=self.bot.defaultcolor)
         e.add_field(name="So, you need help with me. Here's an invite, try ask them.", value="[here](https://discord.gg/Z2nKuYG)")
         e.set_footer(text="Nyan! Blue Cat-bot v1.0")
         await ctx.send(embed=e)
     
-    @commands.command(name="suggest", aliases=["suggestion"])
+    @commands.command(name="suggest", aliases=["suggestion"], usage=" <suggestion>")
     async def suggestion(self, ctx, *, suggestion=None):
         if suggestion == None:
             raise commands.BadArgument("You can't suggest nothing.")
@@ -83,9 +83,9 @@ class Misc(commands.Cog):
         channel = self.bot.get_channel(id=690843403507728406)
         await channel.send(embed=oe)
 
-    @commands.command(name="giveaway")
-    async def giveaway(self, ctx, thing:str=None, howlong:int=None, howmany:int=None):
-        if not thing or not howmany: raise commands.BadArgument("You can't giveaway nothing.")
+    @commands.command(name="giveaway", usage=" <thing> <howlong> [howmany]")
+    async def giveaway(self, ctx, thing:str=None, howlong:int=None, howmany:int=1):
+        if not thing: raise commands.BadArgument("You can't giveaway nothing.")
         if not howlong: raise commands.BadArgument("You can't start giveaway for 0 minutes.")
         await ctx.send(f"Okay-nyan! {howmany} {thing.title()} giveaway started and will end in {howlong} minutes!", delete_after=10)
         e = Embed(colour=self.bot.defaultcolor)

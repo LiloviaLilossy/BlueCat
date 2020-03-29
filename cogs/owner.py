@@ -14,7 +14,7 @@ class Owner(commands.Cog):
         else:
             raise commands.NotOwner("You aren't a bot owner-nyan!")
 
-    @commands.command(name="reload", aliases=["r"])
+    @commands.command(name="reload", aliases=["r"], usage=" [cog]")
     async def _reload(self, ctx, cog="*"):
         lilo = utils.get(self.bot.users, id=516280857468731395)
         if cog == "*":
@@ -39,7 +39,7 @@ class Owner(commands.Cog):
             except commands.ExtensionNotFound:
                 await ctx.send(f"Cog {cog} not found!")
 
-    @commands.command(name="presence", aliases=["change-presence", "cp"])
+    @commands.command(name="presence", aliases=["change-presence", "cp"], usage=" <text>")
     async def presence(self, ctx, text=None):
         if text==None:
             raise commands.BadArgument("Seriously? Are you thinking I'll 'play' *nothing*?")
@@ -47,7 +47,7 @@ class Owner(commands.Cog):
         await self.bot.change_presence(activity=game)
         await ctx.send(f"Done. The presence is {text} for now-nyan!")
 
-    @commands.command(name="botban")
+    @commands.command(name="botban", usage=" <member>")
     async def botban(self, ctx, *, member: User):
         with open("bot-settings/banned.json", "r") as f:
             banned = json.load(f)
@@ -56,7 +56,7 @@ class Owner(commands.Cog):
             json.dump(banned, f)
         await ctx.send(f"{member} now **can't** use my commands. Nothing will change, but anyway.")
 
-    @commands.command(name="botunban")
+    @commands.command(name="botunban", usage=" <member>")
     async def botunban(self, ctx, *, member: User):
         with open("bot-settings/banned.json", "r") as f:
             banned = json.load(f)

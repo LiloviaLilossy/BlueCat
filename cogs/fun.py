@@ -15,7 +15,7 @@ class Fun(commands.Cog):
         await self.session.close()
         self.session = None
 	
-    @commands.command(name="bored", aliases=["whattodo", "nothingtodo"])
+    @commands.command(name="bored", aliases=["whattodo", "nothingtodo"], usage="")
     async def bored(self, ctx):
         msg = await ctx.send("So... you're bored and you have nothing to do. Maybe there'll be something for you.")
         async with self.session.get("http://www.boredapi.com/api/activity/") as resp:
@@ -26,7 +26,7 @@ class Fun(commands.Cog):
         embed.set_footer(text="Powered by boredapi.com")
         await msg.edit(embed=embed)
 	
-    @commands.command(name="qr", aliases=["qrcode"])
+    @commands.command(name="qr", aliases=["qrcode"], usage=" <text>")
     async def qrcode(self, ctx, *, text=None):
         if not text: raise commands.BadArgument("Maybe, it'll be better, *if you'll send anything to encode?*")
         text = text.split()
@@ -37,7 +37,7 @@ class Fun(commands.Cog):
         embed.set_footer(text="Powered by api.qrserver.com -nyan!")
         await msg.edit(embed=embed)
 	
-    @commands.command(name="img", aliases=["randomimg", "bluecatimg"])
+    @commands.command(name="img", aliases=["randomimg", "bluecatimg"], usage="")
     async def randomyuniimage(self, ctx):
         with open("bot-settings/images.json", "r") as file:
             data = json.load(file)
@@ -48,8 +48,8 @@ class Fun(commands.Cog):
         embed.set_footer(text="Just an image of me-nyan! {0}/{1}".format(data["urls"].index(image), len(data["urls"])))
         await ctx.send(embed=embed)
 
-    @commands.command(name="cat", aliases=["catimg"])
-    async def randomcatimage(self, ctx, *, text=None):
+    @commands.command(name="cat", aliases=["catimg"], usage="")
+    async def randomcatimage(self, ctx):
         e = Embed(colour=self.bot.defaultcolor)
         url = "http://aws.random.cat/meow"
         async with aiohttp.ClientSession() as session:
@@ -59,18 +59,18 @@ class Fun(commands.Cog):
         e.set_footer(text="Powered by aws.random.cat -nyan!")
         await ctx.send(embed=e)
 
-    @commands.group(name="encode", invoke_without_command=True)
+    @commands.group(name="encode", invoke_without_command=True, usage="")
     async def encodegroup(self, ctx):
         await ctx.send("do you see this")
 
-    @encodegroup.command(name="b64")
+    @encodegroup.command(name="b64", usage=" <text>")
     async def b64(self, ctx, *, text:str=None):
         if not text: raise commands.BadArgument("You can't encode no text-nyan!")
         text = text.encode()
         out = base64.b64encode(text)
         await ctx.send(f"Your encoded text: {out}")
 
-    @commands.command(name="emoji")
+    @commands.command(name="emoji", usage=" <letters>")
     async def emojisend(self, ctx, *, letters:str=None):
         if not letters: raise commands.BadArgument("I can't send emoji letters from nothing, y'know?")
         blocked = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-",

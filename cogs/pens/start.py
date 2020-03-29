@@ -12,7 +12,7 @@ class StarColorPensStart(commands.Cog):
 
     @commands.check(is_guild_admin)
     @commands.guild_only()
-    @commands.command(name="pen-enable")
+    @commands.command(name="pen-enable", usage="")
     async def penenable(self, ctx):
         try:
             file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
@@ -53,7 +53,7 @@ class StarColorPensStart(commands.Cog):
 
     @commands.check(is_guild_admin)
     @commands.guild_only()
-    @commands.command(name="pen-disable")
+    @commands.command(name="pen-disable", usage="")
     async def pendisable(self, ctx):
         try:
             file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
@@ -71,7 +71,7 @@ class StarColorPensStart(commands.Cog):
 
     @commands.guild_only()
     @commands.bot_has_permissions(manage_roles=True, manage_channels=True)
-    @commands.command(name="team-create", aliases=["create-team"])
+    @commands.command(name="team-create", aliases=["create-team"], usage=" <name>")
     async def team_create(self, ctx, *, name:str=None):
         try:
             file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
@@ -80,22 +80,13 @@ class StarColorPensStart(commands.Cog):
         except FileNotFoundError:
             return await ctx.send("Princesses' Star Color Pens is disabled here-nyan.")
 
+        if name == None:
+            return await ctx.send("You forgot about team's name.")
         checkteams = await is_in_any_team(ctx, data)
         if checkteams != False:
             return await ctx.send("Sorry, but I'll not allow this. You have your own team.")
 
-        def check(m):
-            return m.author == ctx.author
-
         mainchannel = ctx.guild.get_channel(data["MainChannelID"])
-        if name == None:
-            await ctx.send("Hey, you need a team name, after all. I'll wait for a minute, when you'll send me the name-nyan.")
-            try:
-                answer = await self.bot.wait_for('message', check=check, timeout=60.0)
-            except TimeoutError:
-                return await ctx.send("Okay, then you don't want to create the team. Sadly-nyan.")
-            name = answer.content
-            await ctx.send(f"Okay-nyan, you called the team {name}.")
         teamrole = await ctx.guild.create_role(name=name, reason="Creating a team role.")
         await ctx.author.add_roles(teamrole)
         msg = "Okay-nyan, I created a role and gave it to the leader. (it's you)"
@@ -112,7 +103,7 @@ class StarColorPensStart(commands.Cog):
 
     @commands.guild_only()
     @commands.bot_has_permissions(manage_roles=True, manage_channels=True)
-    @commands.command(name="team-remove", aliases=["remove-team"])
+    @commands.command(name="team-remove", aliases=["remove-team"], usage=" <name>")
     async def team_remove(self, ctx, *, name:str = None):
         try:
             file = open(f"guild-settings/{ctx.guild.id}/colorpens.json", "r")
