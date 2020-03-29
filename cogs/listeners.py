@@ -23,7 +23,7 @@ class BotListeners(commands.Cog):
         with open("bot-settings/invokedcmds.json", "w") as f:
             dump(data, f)
 
-    @tasks.loop(seconds=15.0)
+    @tasks.loop(minutes=5)
     async def presence(self):
         with open("bot-settings/othersettings.json", "r") as f:
             data = load(f)
@@ -37,7 +37,7 @@ class BotListeners(commands.Cog):
         elif ptype == "listening":
             presence = Activity(name=text+" | bc~help", type=ActivityType.listening)
         elif ptype == "watching":
-            presence = Activity(name=text+" bc~help", type=ActivityType.watching)
+            presence = Activity(name=text+" | bc~help", type=ActivityType.watching)
         print("Chose the presence")
         await self.bot.change_presence(activity=presence)
         print("Changed the presence")
