@@ -27,20 +27,16 @@ class BotListeners(commands.Cog):
     async def presence(self):
         with open("bot-settings/othersettings.json", "r") as f:
             data = load(f)
-            print("Loaded the file")
         presences = data["bot"]["presences"]
         ptype = choice(list(presences))
         text = choice(presences[ptype])
-        print(f"{ptype}: {text}")
         if ptype == "playing":
             presence = Game(name=text+" | bc~help")
         elif ptype == "listening":
             presence = Activity(name=text+" | bc~help", type=ActivityType.listening)
         elif ptype == "watching":
             presence = Activity(name=text+" | bc~help", type=ActivityType.watching)
-        print("Chose the presence")
         await self.bot.change_presence(activity=presence)
-        print("Changed the presence")
 
     async def bot_check(self, ctx):
         with open("bot-settings/banned.json", "r") as f:
