@@ -27,6 +27,8 @@ class HelpCog(commands.Cog):
         #                help_value += f"`{cmd}`☆"
         #        if help_value != "":
         #            embed.add_field(name=c.name, value=help_value)
+        if ctx.prefix == "<@!676417304707203132> " or ctx.prefix == "<@!691358641886068766> ": #2nd is beta
+            ctx.prefix = "@Blue Cat "
         embed.add_field(name=ctx.prefix+"help colorpens", value="Star Color Pens commands. For most of them bot requires"
             " `Manage Roles` and `Manage Channels` permissions.", inline=False)
         embed.add_field(name=ctx.prefix+"help fun", value="Fun commands.", inline=False)
@@ -43,6 +45,8 @@ class HelpCog(commands.Cog):
         embed.set_image(url="https://media.discordapp.net/attachments/616645258280828949/691873653188460584/botinfo.png")
         start = self.bot.get_cog("StarColorPensStart")
         teams = self.bot.get_cog("StarColorPensTeams")
+        if ctx.prefix == "<@!676417304707203132> " or ctx.prefix == "<@!691358641886068766> ": #2nd is beta
+            ctx.prefix = "@Blue Cat "
         help_value = ""
         for cog in [start, teams]:
             cmds = cog.get_commands()
@@ -62,6 +66,8 @@ class HelpCog(commands.Cog):
         embed.set_image(url="https://media.discordapp.net/attachments/616645258280828949/691873653188460584/botinfo.png")
         cog = self.bot.get_cog("Fun")
         cmds = cog.get_commands()
+        if ctx.prefix == "<@!676417304707203132> " or ctx.prefix == "<@!691358641886068766> ": #2nd is beta
+            ctx.prefix = "@Blue Cat "
         help_value = ""
         for cmd in cmds:
             if cmd.aliases:
@@ -79,6 +85,8 @@ class HelpCog(commands.Cog):
         embed.set_image(url="https://media.discordapp.net/attachments/616645258280828949/691873653188460584/botinfo.png")
         cog = self.bot.get_cog("Misc")
         cmds = cog.get_commands()
+        if ctx.prefix == "<@!676417304707203132> " or ctx.prefix == "<@!691358641886068766> ": #2nd is beta
+            ctx.prefix = "@Blue Cat "
         help_value = ""
         for cmd in cmds:
             if cmd.aliases:
@@ -96,6 +104,8 @@ class HelpCog(commands.Cog):
         embed.set_image(url="https://media.discordapp.net/attachments/616645258280828949/691873653188460584/botinfo.png")
         cog = self.bot.get_cog("Moderation")
         cmds = cog.get_commands()
+        if ctx.prefix == "<@!676417304707203132> " or ctx.prefix == "<@!691358641886068766> ": #2nd is beta
+            ctx.prefix = "@Blue Cat "
         help_value = ""
         for cmd in cmds:
             if cmd.aliases:
@@ -113,6 +123,8 @@ class HelpCog(commands.Cog):
         embed.set_image(url="https://media.discordapp.net/attachments/616645258280828949/691873653188460584/botinfo.png")
         cog = self.bot.get_cog("Owner")
         cmds = cog.get_commands()
+        if ctx.prefix == "<@!676417304707203132> " or ctx.prefix == "<@!691358641886068766> ": #2nd is beta
+            ctx.prefix = "@Blue Cat "
         help_value = ""
         for cmd in cmds:
             if cmd.aliases:
