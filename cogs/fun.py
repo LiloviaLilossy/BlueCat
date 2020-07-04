@@ -10,11 +10,11 @@ class Fun(commands.Cog):
         self.bot = bot
         self.name = "Fun"
         self.session = aiohttp.ClientSession()
-	
+    
     async def cog_unload(self):
         await self.session.close()
         self.session = None
-	
+    
     @commands.command(name="bored", aliases=["whattodo", "nothingtodo"], usage="")
     async def bored(self, ctx):
         msg = await ctx.send("So... you're bored and you have nothing to do. Maybe there'll be something for you.")
@@ -25,7 +25,7 @@ class Fun(commands.Cog):
         embed.add_field(name="Guess I found something.", value=data["activity"])
         embed.set_footer(text="Powered by boredapi.com")
         await msg.edit(embed=embed)
-	
+    
     @commands.command(name="qr", aliases=["qrcode"], usage=" <text>")
     async def qrcode(self, ctx, *, text=None):
         if not text: raise commands.BadArgument("Maybe, it'll be better, *if you'll send anything to encode?*")
@@ -36,7 +36,7 @@ class Fun(commands.Cog):
         embed.set_image(url="https://api.qrserver.com/v1/create-qr-code/?data="+"+".join(text))
         embed.set_footer(text="Powered by api.qrserver.com -nyan!")
         await msg.edit(embed=embed)
-	
+    
 
     @commands.group(name="encode", invoke_without_command=True, usage="")
     async def encodegroup(self, ctx):
