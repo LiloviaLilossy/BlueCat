@@ -23,7 +23,7 @@ class Fun(commands.Cog):
         embed = Embed(colour=self.bot.defaultcolor)
         embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
         embed.add_field(name="Guess I found something.", value=data["activity"])
-        embed.set_footer(text="Powered by boredapi.com")
+        embed.set_footer(text="Powered by boredapi.com ~nyan!")
         await msg.edit(embed=embed)
     
     @commands.command(name="qr", aliases=["qrcode"], usage=" <text>")
@@ -34,7 +34,7 @@ class Fun(commands.Cog):
         embed = Embed(title="Something like this, I think.", colour=self.bot.defaultcolor)
         embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
         embed.set_image(url="https://api.qrserver.com/v1/create-qr-code/?data="+"+".join(text))
-        embed.set_footer(text="Powered by api.qrserver.com -nyan!")
+        embed.set_footer(text="Powered by api.qrserver.com ~nyan!")
         await msg.edit(embed=embed)
     
 

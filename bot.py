@@ -12,3 +12,6 @@ class BlueCat(commands.Bot):
         self.load_extension("jishaku")
         for cog in self.coglist:
             self.load_extension(cog)
+        
+        # Other settings that are probably useless
+        self.version = "2.0"
