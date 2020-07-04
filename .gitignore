@@ -30,3 +30,6 @@ bot-settings/
 bot-settings/token.json
 guild-settings/
 addons/
+
+# This thing appeared out of nothing
+.vscode/
