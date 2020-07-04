@@ -1,6 +1,6 @@
 import json
 from discord.ext import commands
-from discord import Member, Forbidden
+from discord import Member, Forbidden, Role
 
 class Moderation(commands.Cog):
     def __init__(self, bot):
@@ -33,11 +33,10 @@ class Moderation(commands.Cog):
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     @commands.command(name="ban", usage=" <user> [reason]")
-    async def ban(self, ctx, user:Member=None, reason:str=None): 
+    async def ban(self, ctx, user:Member=None, *, reason:str=None): 
         if not user:
             raise commands.BadArgument("Do you know you can't ban nothing?")
-        if not reason:
-            reason = "Banned by Blue Cat, bye-bye-nyan!☆"
+        reasonmsg = f"[Action by {ctx.author}]" + (" Blue Cat Ban! Bye-bye-nyan!☆" if not reason else reason)
         try:
             await user.ban(reason=reason)
             await ctx.send("Bye-bye-nyan!☆")
@@ -47,16 +46,20 @@ class Moderation(commands.Cog):
     @commands.has_permissions(kick_members=True)
     @commands.bot_has_permissions(kick_members=True)
     @commands.command(name="kick", usage=" <user> [reason]")
-    async def kick(self, ctx, user:Member=None, reason:str=None):
+    async def kick(self, ctx, user:Member=None, *, reason:str=None):
         if not user:
             raise commands.BadArgument("Do you know you can't kick the air? It looks strange.")
-        if not reason:
-            reason = "Kicked by Blue Cat, see you later."
+        reasonmsg = f"[Action by {ctx.author}]" + (" Blue Cat Kick! Bye-bye-nyan!☆" if not reason else reason)
         try:
             await user.kick(reason=reason)
             await ctx.send("Bye-bye-nyan!☆")
         except Forbidden:
             await ctx.send("Hm. Don't you think this user is too high for me?")
+    
+    @commands.has_permissions(manage_messages=True)
+    @commands.bot_has_permissions(manage_roles=True)
+    @commands.command(name="muterole", usage=" <role>")
+    async def mute_role(self, ctx, role:Role):
 
 def setup(bot):
     bot.add_cog(Moderation(bot))

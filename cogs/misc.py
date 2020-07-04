@@ -83,30 +83,5 @@ class Misc(commands.Cog):
         channel = self.bot.get_channel(id=690843403507728406)
         await channel.send(embed=oe)
 
-    @commands.command(name="giveaway", usage=" <thing> <howlong> [howmany]")
-    async def giveaway(self, ctx, thing:str=None, howlong:int=None, howmany:int=1):
-        if not thing: raise commands.BadArgument("You can't giveaway nothing.")
-        if not howlong: raise commands.BadArgument("You can't start giveaway for 0 minutes.")
-        await ctx.send(f"Okay-nyan! {howmany} {thing.title()} giveaway started and will end in {howlong} minutes!", delete_after=10)
-        e = Embed(colour=self.bot.defaultcolor)
-        e.set_author(name="Giveaway by "+str(ctx.author))
-        e.add_field(name=str(howmany)+" "+thing, value="Click on reaction below to win!")
-        e.set_footer(text="Giveaway will end in "+str(howlong)+" minutes!")
-        emote = utils.get(self.bot.emojis, name='BlueCatWink')
-        msg = await ctx.send(embed=e)
-        await msg.add_reaction(emote)
-        await sleep(howlong*60)
-        winners = []
-        reacts = (await ctx.channel.fetch_message(msg.id)).reactions
-        for reaction in reacts:
-            if reaction.emoji == emote:
-                users = await reaction.users().flatten()
-                for i in range(howmany):
-                    winner = choice(users)
-                    while winner == self.bot.user:
-                        winner = choice(users)
-                    winners.append(winner.mention)
-                await ctx.send("Giveaway is done! " + ", ".join(winners) + f" will get {thing} from {ctx.author.mention}!")
-
 def setup(bot):
     bot.add_cog(Misc(bot))

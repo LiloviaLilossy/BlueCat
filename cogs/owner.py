@@ -9,14 +9,13 @@ class Owner(commands.Cog):
         self.name = "Owner"
 
     async def cog_check(self, ctx):
-        if ctx.author.id == 516280857468731395:
+        if ctx.author.id in self.bot.owner_ids:
             return True
         else:
             raise commands.NotOwner("You aren't a bot owner-nyan!")
 
     @commands.command(name="reload", aliases=["r"], usage=" [cog]")
     async def _reload(self, ctx, cog="*"):
-        lilo = utils.get(self.bot.users, id=516280857468731395)
         if cog == "*":
             loadedcogs = []
             for cog in self.bot.coglist():
@@ -27,7 +26,7 @@ class Owner(commands.Cog):
                     self.bot.load_extension(cog)
                     loadedcogs.append(cog)
                 except commands.ExtensionError as e:
-                    await lilo.send(f"{cog} - {e}")
+                    await ctx.author.send(f"{cog} - {e}")
             await ctx.send(",".join(loadedcogs) + " - done-nyan!")
         else:
             try:

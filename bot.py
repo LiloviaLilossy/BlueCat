@@ -1,13 +1,14 @@
-from addons.get_something import *
 from discord.ext import commands
+from addons.get_something import *
 
-bot = commands.Bot(command_prefix=get_prefix)
-bot.coglist = get_cogs
-token = get_token("discord")
+class BlueCat(commands.Bot):
+	def __init__(self):
 
-bot.remove_command("help")
-bot.load_extension("jishaku")
-for cog in bot.coglist():
-    bot.load_extension(cog)
+		# Init the bot itself
+		super().__init__(command_prefix=get_prefix, owner_ids=[321566831670198272, 516280857468731395])
 
-bot.run(token)
+		# Getting and loading the cogs
+		self.coglist = get_cogs()
+		self.load_extension("jishaku")
+		for cog in self.coglist:
+			self.load_extension(cog)
