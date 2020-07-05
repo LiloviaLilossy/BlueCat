@@ -1,5 +1,5 @@
 from discord.ext import commands
-from addons.get import get_token
+from addons.get_something import get_token
 import statcord
 
 
