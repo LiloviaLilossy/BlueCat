@@ -9,7 +9,7 @@ class Owner(commands.Cog):
         self.name = "Owner"
 
     async def cog_check(self, ctx):
-        if ctx.author.id == 516280857468731395:
+        if ctx.author.id in [516280857468731395, 321566831670198272]:
             return True
         else:
             raise commands.NotOwner("You aren't a bot owner-nyan!")
