@@ -1,5 +1,5 @@
 from discord.ext import commands
-from addons.get_something import *
+from addons.get import *
 
 class BlueCat(commands.Bot):
     def __init__(self):
@@ -15,3 +15,6 @@ class BlueCat(commands.Bot):
         
         # Other settings that are probably useless
         self.version = "2.0"
+
+bot = BlueCat()
+bot.run(get_token("discord"))

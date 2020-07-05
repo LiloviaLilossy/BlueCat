@@ -1,5 +1,4 @@
 import json
-from addons.get_something import get_smth
 from discord import Game, utils, User
 from discord.ext import commands
 
@@ -13,30 +12,6 @@ class Owner(commands.Cog):
             return True
         else:
             raise commands.NotOwner("You aren't a bot owner-nyan!")
-
-    @commands.command(name="reload", aliases=["r"], usage=" [cog]")
-    async def _reload(self, ctx, cog="*"):
-        if cog == "*":
-            loadedcogs = []
-            for cog in self.bot.coglist():
-                try:
-                    self.bot.reload_extension(cog)
-                    loadedcogs.append(cog)
-                except commands.ExtensionNotLoaded:
-                    self.bot.load_extension(cog)
-                    loadedcogs.append(cog)
-                except commands.ExtensionError as e:
-                    await ctx.author.send(f"{cog} - {e}")
-            await ctx.send(",".join(loadedcogs) + " - done-nyan!")
-        else:
-            try:
-                self.bot.reload_extension(cog)
-                await ctx.send(f"Cog {cog} - done-nyan!")
-            except commands.ExtensionNotLoaded:
-                self.bot.load_extension(cog)
-                await ctx.send(f"Cog {cog} - done-nyan!")
-            except commands.ExtensionNotFound:
-                await ctx.send(f"Cog {cog} not found!")
 
     @commands.command(name="presence", aliases=["change-presence", "cp"], usage=" <text>")
     async def presence(self, ctx, text=None):

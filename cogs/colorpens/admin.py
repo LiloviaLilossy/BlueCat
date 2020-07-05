@@ -35,4 +35,7 @@ class ColorPensAdmin(commands.Cog):
         permissions = ctx.guild.me.guild_permissions
         if not permissions.manage_channels or not permissions.manage_roles:
             return await ctx.send("You didn't give me permissions. Aborting...")
+
+def setup(bot):
+    bot.add_cog(ColorPensAdmin(bot))
         
