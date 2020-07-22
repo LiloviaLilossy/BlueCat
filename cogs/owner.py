@@ -14,7 +14,7 @@ class Owner(commands.Cog):
             raise commands.NotOwner("You aren't a bot owner-nyan!")
 
     @commands.command(name="presence", aliases=["change-presence", "cp"], usage=" <text>")
-    async def presence(self, ctx, text=None):
+    async def presence(self, ctx, *, text=None):
         if text==None:
             raise commands.BadArgument("Seriously? Are you thinking I'll 'play' *nothing*?")
         game = Game(name=text+" | bc~help for help")
