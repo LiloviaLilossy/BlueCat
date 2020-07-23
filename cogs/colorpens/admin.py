@@ -2,11 +2,18 @@ from discord import PermissionOverwrite, Embed
 from discord.ext import commands
 from addons import colorpens
 from addons.botinput import botinput
+from os import remove
 
 class ColorPensAdmin(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.path = "guild-settings/{}/colorpensadmin.json"
+    
+    async def cog_check(self, ctx):
+        if ctx.author.guild_permissions.administrator:
+            return True
+        else:
+            return False
     
     @commands.group(name="colorpens", invoke_without_command=False)
     async def pen(self, ctx):
@@ -23,7 +30,8 @@ class ColorPensAdmin(commands.Cog):
             return m.lower() == "yes"
         await ctx.send("So, you want to join our game and find Star Color Pens~nyan... That's good, I think. "
                     "But before I let you to start the adventure, I need to ask some questions first. Are you ready?")
-        inp = await botinput(bot=self.bot, ctx=ctx, typ=str, ch=check, cancel_str="no", err="That's not \"yes\" or \"no\" answer!")
+        inp = await botinput(bot=self.bot, ctx=ctx, typ=str, ch=check, cancel_str="no", err="That's not \"yes\" or "
+                                "\"no\" answer!")
         if inp == None:
             return await ctx.send("Okay, if you don't want to join us, it's fully okay~nyan. It will be even easier.")
         await ctx.send("Okay, fine. The next question. I'll need some additional permissions: "
@@ -52,8 +60,8 @@ class ColorPensAdmin(commands.Cog):
         e = Embed(title="Blue Cat's Princess Star Color Pens Cog Starting FAQ!")
         e.add_field(name="How will I join the game?", value="It's easy~nyan! You'll need to create a character first. "
                     "You can do it by `bc~character create`. After this you'll be free to write in main channel~nyan!")
-        e.add_field(name="How will I create my own team?", value="You can create your own team by `bc~team create [name]`."
-                    " Note: if you won't find someone to join your team in two days, it'll be deleted."
+        e.add_field(name="How will I create my own team?", value="You can create your own team by `bc~team create "
+                    "[name]`. Note: if you won't find someone to join your team in two days, it'll be deleted."
                     " So use it only if you're sure you have someone to team-up~nyan! \n")
         e.add_field(name="How will I join the team?", value="You can do it by `bc~team join [name]`. Your request will"
                     " be send to the team owner, and they'll decide accept you or not.")
@@ -64,6 +72,20 @@ class ColorPensAdmin(commands.Cog):
         e.set_footer(text="Blue Cat-bot v"+self.bot.version)
         embedmsg = await channel.send(embed=e)
         await embedmsg.pin()
+    
+    @pen.command(name="disable")
+    async def pen_disable(self, ctx):
+        try:
+            i = colorpens.load_info(self.path.format(ctx.guild.id))
+        except:
+            return await ctx.send("The game is already disabled.")
+        remove(self.path.format(ctx.guild.id))
+        channel = self.bot.get_channel(i["main"]["main_channel_id"])
+        if channel == ctx.channel:
+            await ctx.author.send("Done!")
+        else:
+            await ctx.send("Done!")
+        await channel.delete()
 
 
 def setup(bot):
