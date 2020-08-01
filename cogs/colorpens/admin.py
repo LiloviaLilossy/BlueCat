@@ -72,20 +72,6 @@ class ColorPensAdmin(commands.Cog):
         e.set_footer(text="Blue Cat-bot v"+self.bot.version)
         embedmsg = await channel.send(embed=e)
         await embedmsg.pin()
-    
-    @pen.command(name="disable")
-    async def pen_disable(self, ctx):
-        try:
-            i = colorpens.load_info(self.path.format(ctx.guild.id))
-        except:
-            return await ctx.send("The game is already disabled.")
-        remove(self.path.format(ctx.guild.id))
-        channel = self.bot.get_channel(i["main"]["main_channel_id"])
-        if channel == ctx.channel:
-            await ctx.author.send("Done!")
-        else:
-            await ctx.send("Done!")
-        await channel.delete()
 
 
 def setup(bot):
