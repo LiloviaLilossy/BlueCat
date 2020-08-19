@@ -33,7 +33,7 @@ class Moderation(commands.Cog):
     @commands.has_permissions(ban_members=True)
     @commands.bot_has_permissions(ban_members=True)
     @commands.command(name="ban", usage=" <user> [reason]")
-    async def ban(self, ctx, user:Member=None, reason:str=None): 
+    async def ban(self, ctx, user:Member=None, *, reason:str=None): 
         if not user:
             raise commands.BadArgument("Do you know you can't ban nothing?")
         if not reason:
@@ -47,7 +47,7 @@ class Moderation(commands.Cog):
     @commands.has_permissions(kick_members=True)
     @commands.bot_has_permissions(kick_members=True)
     @commands.command(name="kick", usage=" <user> [reason]")
-    async def kick(self, ctx, user:Member=None, reason:str=None):
+    async def kick(self, ctx, user:Member=None, *, reason:str=None):
         if not user:
             raise commands.BadArgument("Do you know you can't kick the air? It looks strange.")
         if not reason:

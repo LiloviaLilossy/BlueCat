@@ -36,17 +36,6 @@ class Fun(commands.Cog):
         embed.set_image(url="https://api.qrserver.com/v1/create-qr-code/?data="+"+".join(text))
         embed.set_footer(text="Powered by api.qrserver.com -nyan!")
         await msg.edit(embed=embed)
-	
-    @commands.command(name="img", aliases=["randomimg", "bluecatimg"], usage="")
-    async def randomyuniimage(self, ctx):
-        with open("bot-settings/images.json", "r") as file:
-            data = json.load(file)
-        image = choice(data["urls"])
-        embed = Embed(colour=self.bot.defaultcolor)
-        embed.set_author(name=ctx.author, icon_url=ctx.author.avatar_url)
-        embed.set_image(url=image)
-        embed.set_footer(text="Just an image of me-nyan! {0}/{1}".format(data["urls"].index(image), len(data["urls"])))
-        await ctx.send(embed=embed)
 
     @commands.command(name="cat", aliases=["catimg"], usage="")
     async def randomcatimage(self, ctx):
@@ -59,27 +48,14 @@ class Fun(commands.Cog):
         e.set_footer(text="Powered by aws.random.cat -nyan!")
         await ctx.send(embed=e)
 
-    @commands.group(name="encode", invoke_without_command=True, usage="")
-    async def encodegroup(self, ctx):
-        await ctx.send("do you see this")
-
-    @encodegroup.command(name="b64", usage=" <text>")
-    async def b64(self, ctx, *, text:str=None):
-        if not text: raise commands.BadArgument("You can't encode no text-nyan!")
-        text = text.encode()
-        out = base64.b64encode(text)
-        await ctx.send(f"Your encoded text: {out}")
-
     @commands.command(name="emoji", usage=" <letters>")
     async def emojisend(self, ctx, *, letters:str=None):
         if not letters: raise commands.BadArgument("I can't send emoji letters from nothing, y'know?")
-        blocked = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-",
-            "_", "=", "+", "[", "{", "]", "}", "\\", "|", ";", ":", "'",
-            '"', ",", "<", ".", ">", "?", "/"]
+        allowed = list("qwertyuiopasdfghjklzxcvbnm")
         letters = list(letters)
         emojis = ""
         for i in letters:
-            if i in blocked: continue
+            if not i.lower() in allowed: continue
             if i == " ": emojis+= "  "
             else: emojis+= ":regional_indicator_"+i.lower()+":"
         await ctx.send(emojis)
